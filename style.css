@@ -1,0 +1,47 @@
+.container {
+    margin-top: 20px;
+}
+
+.item {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.item .edit {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    background-color: #eee;
+    overflow: hidden;
+}
+
+.finash {
+    position: relative;
+    display: none;
+    border: 1px solid #dadada;
+    padding: 5px;
+}
+
+.done .edit {
+    display: none;
+}
+
+.done .finash {
+    display: block;
+}
+
+.finash a {
+    float: right;
+    margin-left: 10px
+}
+
+.add {
+    margin: 10px 0;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border: 1px dashed #ddd;
+    background-color: #dedede;
+    cursor: pointer;
+}

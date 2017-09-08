@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.css">
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./node_modules/lodash/lodash.js"></script>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <div class="item" v-for="(item,index) in list" :class="{'done':item.done}">
+            <div class="edit">
+                <div style="margin:15px 0">
+                    <input v-model="item.data.type1" placeholder="品类">
+                    <input v-model="item.data.type2" placeholder="材质">
+                    <input v-model="item.data.type3" placeholder="表面">
+                    <input v-model="item.data.type4" placeholder="产地">
+                </div>
+                <button class="btn btn-primary">发布</button>
+                <button class="btn btn-primary" @click="saveItme(item)">保存</button>
+            </div>
+            <div class="finash">
+                {{ `${item.data.type1} - ${item.data.type2} - ${item.data.type3} - ${item.data.type4}` }}
+                <a @click="del(false,index)">删除</a>
+                <a @click="del(true,index)">发布</a>
+                <a @click="item.done = false">修改</a>
+                <a @click="copy(item)">复制</a>
+            </div>
+        </div>
+        <div class="add" v-show="isSaved" @click="add">增加</div>
+
+        <button v-show="isSaved" class="btn btn-primary btn-block" @click="pubAll">批量发布</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list: [{
+                    data: {
+                        type1: '',
+                        type2: '',
+                        type3: '',
+                        type4: '',
+                    },
+                    done: false
+                }]
+            },
+            computed: {
+                isSaved() {
+                    let ok = true;
+                    this.list.forEach(el => {
+                        ok = ok && el.done
+                    })
+                    return ok
+                }
+            },
+            methods: {
+                saveItme(item) {
+                    console.log(item)
+                    if (item.data.type1 != '' && item.data.type2 != '' && item.data.type3 != '' && item.data.type4 != '') {
+                        item.done = true
+                    } else {
+                        alert("没填完")
+                    }
+                },
+                del(pub, index) {
+                    this.list.splice(index, 1);
+                    if (pub) {
+                        alert('发布成功')
+                    } else {
+                        alert('已删除')
+                    }
+                },
+                add() {
+                    this.list.push({
+                        data: {
+                            type1: '',
+                            type2: '',
+                            type3: '',
+                            type4: '',
+                        },
+                        done: false
+                    })
+                },
+                copy(item) {
+                    let copyItem = _.cloneDeep(item);
+                    this.list.push(copyItem);
+                },
+                pubAll() {
+                    if (this.isSaved) {
+                        this.list = [];
+                        alert("发布成功")
+                    } else {
+                        alert("请保存")
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
